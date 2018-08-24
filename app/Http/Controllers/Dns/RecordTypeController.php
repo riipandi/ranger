@@ -13,79 +13,10 @@ class RecordTypeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return response()->json(RecordType::all()->toArray());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\RecordType  $recordType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(RecordType $recordType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\RecordType  $recordType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(RecordType $recordType)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\RecordType  $recordType
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, RecordType $recordType)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\RecordType  $recordType
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(RecordType $recordType)
-    {
-        //
+        $data = RecordType::paginate(20);
+        return view('dns.recordtype')->with('data', $data);
+        // return response()->json(RecordType::all()->toArray());
     }
 }

@@ -5,7 +5,7 @@
             <a href="{{ route('dns.zones') }}" class="list-group-item list-group-item-action rounded-0 border-left-0 border-right-0">
                 <i class="fe fe-drop-right mr-2"></i>Domains
             </a>
-            <a href="{{ route('dns.zones') }}" class="list-group-item list-group-item-action rounded-0 border-left-0 border-right-0">
+            <a href="{{ route('dns.recordtype') }}" class="list-group-item list-group-item-action rounded-0 border-left-0 border-right-0">
                 <i class="fe fe-drop-right mr-2"></i>Record Type
             </a>
             <a href="{{ route('dns.zones') }}" class="list-group-item list-group-item-action rounded-0 border-left-0 border-right-0">
