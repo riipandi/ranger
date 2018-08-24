@@ -24,7 +24,7 @@ class CreateRecordsTable extends Migration
             $table->unsignedSmallInteger('prio')->nullable();
             $table->unsignedInteger('change_date')->nullable();
             $table->boolean('disabled')->default(false);
-            $table->string('ordername')->index();
+            $table->string('ordername')->index()->nullable();
             $table->boolean('auth')->default(true);
 
             $table->timestamps();
