@@ -27,16 +27,16 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="name" placeholder="Name">
+                                    <input type="text" class="form-control" name="name" placeholder="Name" required>
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="content" placeholder="Value">
+                                    <input type="text" class="form-control" name="content" placeholder="Value" required>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="ttl" value="3600" placeholder="TTL">
+                                    <input type="text" class="form-control text-center" name="ttl" value="3600" placeholder="TTL" required>
                                 </div>
                                 <div class="col-sm-1">
-                                    <input type="text" class="form-control text-center" name="prio" value="" id="priority" placeholder="Prio" disabled>
+                                    <input type="text" class="form-control text-center" name="prio" value="" id="priority" placeholder="Prio" required disabled>
                                 </div>
                                 <div class="col-sm-1">
                                     <button type="submit" class="form-control btn btn-primary btn-submit"><i class="fe fe-check"></i></button>
