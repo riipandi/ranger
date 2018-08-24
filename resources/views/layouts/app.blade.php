@@ -12,25 +12,63 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-ranger">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'Laravel') }}</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    {!! config('app.name', trans('titles.app')) !!}
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
+                    <span class="sr-only">{!! trans('titles.toggleNav') !!}</span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto"></ul>
-                    <ul class="navbar-nav ml-auto">
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    {{-- Left Side Of Navbar --}}
+                    <ul class="navbar-nav mr-auto">
+                        @auth
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
+                        </li>
+                        @endauth
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="{{ route('whois.index') }}">{{ __('Whois') }}</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="{{ route('toolbox.ip') }}">{{ __('My IP') }}</a>
+                        </li>
+                        {{-- @role('admin')
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {!! __('Toolbox') !!}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'active' : null }}" href="{{ url('/users') }}">
+                                        @lang('titles.adminUserList')
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item {{ Request::is('users/create') ? 'active' : null }}" href="{{ url('/users/create') }}">
+                                        @lang('titles.adminNewUser')
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item {{ Request::is('themes','themes/create') ? 'active' : null }}" href="{{ url('/themes') }}">
+                                        @lang('titles.adminThemesList')
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item {{ Request::is('logs') ? 'active' : null }}" href="{{ url('/logs') }}">
+                                        @lang('titles.adminLogs')
+                                    </a>
+                                </div>
                             </li>
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li> --}}
+                        @endrole --}}
+                    </ul>
+                    {{-- Right Side Of Navbar --}}
+                    <ul class="navbar-nav ml-auto">
+                        {{-- Authentication Links --}}
+                        @guest
+                            <li><a class="nav-link" href="{{ route('login') }}">{{ trans('titles.login') }}</a></li>
+                            <li><a class="nav-link" href="{{ route('register') }}">{{ trans('titles.register') }}</a></li>
                         @else
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->realname }}</a>
                                 <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fe fe-home mr-2"></i>{{ __('Dashboard') }}</a>
                                     <a class="dropdown-item" href="{{ route('user.setting') }}"><i class="fe fe-equalizer mr-2"></i>{{ __('Account Setting') }}</a>
                                     <a class="dropdown-item" href="{{ route('user.password') }}"><i class="fe fe-key mr-2"></i>{{ __('Change Password') }}</a>
                                     <div class="dropdown-divider"></div>
