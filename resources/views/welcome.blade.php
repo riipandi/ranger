@@ -20,8 +20,8 @@
         <div class="col-md-4 mb-2">
             <div class="card">
                 <div class="card-body text-center">
-                    <h3 class="mb-4">Free DNS Hosting</h3>
-                    <a href="javascript:;" class="btn btn-primary">Read More</a>
+                    <h3 class="mb-4">DNS Leak Test</h3>
+                    <a href="javascript:;" class="btn btn-primary">Leak My DNS</a>
                 </div>
             </div>
         </div>
