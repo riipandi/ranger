@@ -31,7 +31,7 @@
                                     <td class="text-center">
                                         <div class="btn-group" role="group" aria-label="Action">
                                             <a href="{{ route('dns.records', $row->name) }}" class="btn btn-sm btn-primary btn-edit"><i class="fe fe-search mx-1"></i></a>
-                                            <button type="button" class="btn btn-success btn-sm float-right" data-id="{{ Hashids::encode($row->id) }}" data-toggle="modal" data-target="#frmEditModal"><i class="fe fe-edit mx-1"></i></button>
+                                            <button type="button" class="not-available btn btn-success btn-sm float-right" data-id="{{ Hashids::encode($row->id) }}" data-toggle="modal" data-target="#frmEditModal"><i class="fe fe-edit mx-1"></i></button>
                                             <button data-url="{{ route('dns.zones.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger confirm-get"><i class="fe fe-trash mx-1"></i></button>
                                         </div>
                                     </td>

@@ -27,7 +27,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="name" placeholder="Full hostname or @" required>
+                                    <input type="text" class="form-control" name="name" placeholder="Enter @ or full hostname" required>
                                 </div>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" name="content" placeholder="Value" required>
@@ -66,7 +66,7 @@
                                     <td class="text-muted">{{ $row->prio }}</td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group" aria-label="Action">
-                                            <a href="{{ route('dns.record.edit', Hashids::encode($row->id)) }}" class="btn btn-sm btn-success"><i class="fe fe-edit mx-1"></i></a>
+                                            <a href="javascript:;" data-href="{{ route('dns.record.edit', Hashids::encode($row->id)) }}" class="not-available btn btn-sm btn-success"><i class="fe fe-edit mx-1"></i></a>
                                             <button data-url="{{ route('dns.record.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger confirm-get"><i class="fe fe-trash mx-1"></i></button>
                                         </div>
                                     </td>
