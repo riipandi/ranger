@@ -32,7 +32,7 @@
                                         <div class="btn-group" role="group" aria-label="Action">
                                             <a href="{{ route('dns.records', Hashids::encode($row->id)) }}" class="btn btn-sm btn-primary"><i class="fe fe-search mx-1"></i></a>
                                             <a href="{{ route('dns.zones.edit', Hashids::encode($row->id)) }}" class="btn btn-sm btn-success"><i class="fe fe-edit mx-1"></i></a>
-                                            <a href="{{ route('dns.zones.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger"><i class="fe fe-trash mx-1"></i></a>
+                                            <button data-url="{{ route('dns.zones.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger confirm-get"><i class="fe fe-trash mx-1"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -117,27 +117,6 @@
 
 @endsection
 
-@push('scripts')
-    <script>
-    $("#add").click(function() {
-    $.ajax({
-            type: 'post',
-            url: '/addItem',
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'name': $('input[name=name]').val()
-            },
-            success: function(data) {
-                if ((data.errors)) {
-                    $('.error').removeClass('hidden');
-                    $('.error').text(data.errors.name);
-                } else {
-                    $('.error').remove();
-                    $('#table').append("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.name + "</td><td><button class='edit-modal btn btn-info' data-id='" + data.id + "' data-name='" + data.name + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-id='" + data.id + "' data-name='" + data.name + "'><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
-                }
-            },
-        });
-        $('#name').val('');
-    });
-    </script>
-@endpush
+{{-- @push('scripts')
+    <script></script>
+@endpush --}}

@@ -9,12 +9,28 @@ require('./bootstrap');
 /**
  * Custom JavaScript function
  */
-
 $(document).ready(function () {
 
     // Fitur Belum Tersedia
     $(".not-available").click(function () {
         swal("Oops!", "Not available for now!", "error")
+    });
+
+    // Confirm GET Method
+    $(".confirm-get").click(function () {
+        var url = $(this).data('url');
+        swal({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                // swal("Poof! Your imaginary file has been deleted!", {icon: "success"});
+                window.location.href = url;
+            }
+        });
     });
 
     // Show password unmasked

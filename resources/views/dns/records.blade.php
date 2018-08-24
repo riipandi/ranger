@@ -33,7 +33,7 @@
                                         <td class="text-center">
                                             <div class="btn-group" role="group" aria-label="Action">
                                                 <a href="{{ route('dns.record.edit', Hashids::encode($row->id)) }}" class="btn btn-sm btn-success"><i class="fe fe-edit mx-1"></i></a>
-                                                <a href="{{ route('dns.record.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger"><i class="fe fe-trash mx-1"></i></a>
+                                                <button data-url="{{ route('dns.record.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger confirm-get"><i class="fe fe-trash mx-1"></i></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -45,9 +45,8 @@
                         </table>
                     </div>
                     <div class="card-footer">
-                        <nav aria-label="navigation" class="float-right">
-                            {{ $data->links() }}
-                        </nav>
+                        <a href="{{ route('dns.zones') }}" class="btn btn-primary btn-md">&larr; Back to domain list</a>
+                        <nav aria-label="navigation" class="float-right">{{ $data->links() }}</nav>
                     </div>
                 </div>
             </div>
