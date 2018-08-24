@@ -2,6 +2,12 @@
 
 Ranger is a simple DNS manager tool for PowerDNS.
 
+## Install PowerDNS
+
+```bash
+apt install pdns-backend-pgsql
+```
+
 ## Prepare Database
 
 ```bash

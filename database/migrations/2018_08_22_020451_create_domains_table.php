@@ -14,13 +14,14 @@ class CreateDomainsTable extends Migration
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id')->default(1);
             $table->string('name')->unique()->index();
             $table->string('master', 128)->nullable();
             $table->unsignedInteger('last_check')->nullable();
             $table->string('type', 6);
             $table->unsignedInteger('notified_serial')->nullable();
-            $table->string('account', 40);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
