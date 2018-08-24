@@ -33,7 +33,8 @@ class DomainController extends Controller
                 'type'    => strtoupper($request->type),
             ]);
 
-            $admin_email = str_replace('@', '.', $domain->user->email);
+            $domain = Domain::where('name', $request->domain)->first();
+            $admin_email = str_replace('@', '.', $request->admin_email);
             Record::create([
                 'domain_id' => $domain->id,
                 'name' => $request->domain,
