@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             'password'  => Hash::make('admin'),
             'confirmed' => true,
             'disabled'  => false,
+            'is_admin'  => true,
             'remember_token' => str_random(10),
         ]);
 

@@ -43,5 +43,6 @@ Route::get('domains/{id}/delete', 'Dns\DomainController@delete')->name('dns.zone
 Route::get('domains/{id}/record', 'Dns\RecordController@index')->name('dns.records');
 Route::get('record/{id}/edit', 'Dns\RecordController@edit')->name('dns.record.edit');
 Route::get('record/{id}/delete', 'Dns\RecordController@delete')->name('dns.record.delete');
+Route::post('record', 'Dns\RecordController@add')->name('dns.record.add');
 
 Route::get('recordtype', 'Dns\RecordTypeController@index')->name('dns.recordtype');

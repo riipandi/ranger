@@ -17,7 +17,7 @@
                             <thead class="">
                                 <th class="text-center">#</th>
                                 <th>Type</th>
-                                <th class="text-left">Owner</th>
+                                @if (auth()->user()->is_admin)<th class="text-left">Owner</th>@endif
                                 <th class="text-center">Records</th>
                                 <th class="text-center">Action</th>
                             </thead>
@@ -26,11 +26,11 @@
                                 <tr>
                                     <td class="text-center">{{ ($data ->currentpage()-1) * $data ->perpage() + $loop->index + 1 }}</td>
                                     <td>{{ $row->name }}</td>
-                                    <td>{{ $row->user->realname }}</td>
+                                    @if (auth()->user()->is_admin)<td>{{ $row->user->realname }}</td>@endif
                                     <td class="text-center">{{ $row->records->count() }}</td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group" aria-label="Action">
-                                            <a href="{{ route('dns.records', Hashids::encode($row->id)) }}" class="btn btn-sm btn-primary btn-edit"><i class="fe fe-search mx-1"></i></a>
+                                            <a href="{{ route('dns.records', $row->name) }}" class="btn btn-sm btn-primary btn-edit"><i class="fe fe-search mx-1"></i></a>
                                             <button type="button" class="btn btn-success btn-sm float-right" data-id="{{ Hashids::encode($row->id) }}" data-toggle="modal" data-target="#frmEditModal"><i class="fe fe-edit mx-1"></i></button>
                                             <button data-url="{{ route('dns.zones.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger confirm-get"><i class="fe fe-trash mx-1"></i></button>
                                         </div>
@@ -68,6 +68,7 @@
                                 <input type="text" name="domain" class="form-control" required>
                             </div>
                         </div>
+                        @if (auth()->user()->is_admin)
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Owner</label>
                             <div class="col-sm-8">
@@ -85,6 +86,15 @@
                                 <input type="text" name="admin_email" id="admin_email" class="form-control" required>
                             </div>
                         </div>
+                        @else
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Admin Email</label>
+                            <div class="col-sm-8">
+                                <input type="hidden" name="owner" value="{{ auth()->user()->id }}">
+                                <input type="text" name="admin_email" id="admin_email" class="form-control" value="{{ auth()->user()->email }}" required>
+                            </div>
+                        </div>
+                        @endif
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Default NS1</label>
                             <div class="col-sm-8">

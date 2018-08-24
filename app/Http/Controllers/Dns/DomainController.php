@@ -18,7 +18,11 @@ class DomainController extends Controller
 
     public function index()
     {
-        $data = Domain::paginate(20);
+        if (auth()->user()->is_admin == true) {
+            $data = Domain::paginate(20);
+        } else {
+            $data = Domain::where('user_id', auth()->user()->id)->paginate(20);
+        }
         $user = User::get();
         return view('dns.domain', ['data' => $data, 'user' => $user]);
     }
