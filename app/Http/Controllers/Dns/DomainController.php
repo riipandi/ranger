@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Dns;
 
+use App\User;
 use App\Domain;
+use App\Record;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Vinkla\Hashids\Facades\Hashids;
 
 class DomainController extends Controller
 {
@@ -13,79 +16,56 @@ class DomainController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return response()->json(Domain::all()->toArray());
+        $data = Domain::paginate(20);
+        $user = User::get();
+        return view('dns.domain', ['data' => $data, 'user' => $user]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function add(Request $request)
     {
-        //
+        $domain = Domain::where('name', $request->domain)->first();
+        if ($domain === null) {
+            Domain::create([
+                'user_id' => $request->owner,
+                'name'    => strtolower($request->domain),
+                'type'    => strtoupper($request->type),
+            ]);
+
+            $admin_email = str_replace('@', '.', $domain->user->email);
+            Record::create([
+                'domain_id' => $domain->id,
+                'name' => $request->domain,
+                'type' => 'SOA',
+                'content' => strtolower($request->ns1) . ' ' . $admin_email . ' 1 10380 3600 604800 3600',
+            ]);
+
+            alert()->success(__('Domain addedd!'), 'Success')->autoclose(1800);
+            return redirect()->back();
+        } else {
+            alert()->warning(__('Domain already exists!'), 'Warning')->autoclose(1800);
+            return redirect()->back();
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function delete(Request $request)
     {
-        //
+        $id = (int) implode('', Hashids::decode($request->id));
+        $data = Domain::find($id);
+        if ($data->delete()) {
+            alert()->success(__('Record deleted!'), 'Success')->autoclose(1800);
+            return redirect()->back();
+        } else {
+            alert()->warning(__('Record not exists!'), 'Warning')->autoclose(1800);
+            return redirect()->back();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Domain  $domain
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Domain $domain)
+    public function editIndex(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Domain  $domain
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Domain $domain)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Domain  $domain
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Domain $domain)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Domain  $domain
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Domain $domain)
-    {
-        //
+        $id = (int) implode('', Hashids::decode($request->id));
+        $data = Domain::find($id);
+        return view('dns.domain.edit')->with('data', $data);
     }
 }

@@ -35,6 +35,13 @@ Route::post('account', 'User\SettingController@save')->name('user.setting');
 /**
  * DNS Admin routes
  */
-Route::get('zones', 'Dns\DomainController@index')->name('dns.zones');
-Route::get('records', 'Dns\RecordController@index')->name('dns.records');
+Route::get('domains', 'Dns\DomainController@index')->name('dns.zones');
+Route::post('domains', 'Dns\DomainController@add')->name('dns.zones.add');
+Route::get('domains/{id}/edit', 'Dns\DomainController@edit')->name('dns.zones.edit');
+Route::get('domains/{id}/delete', 'Dns\DomainController@delete')->name('dns.zones.delete');
+
+Route::get('domains/{id}/record', 'Dns\RecordController@index')->name('dns.records');
+Route::get('record/{id}/edit', 'Dns\RecordController@edit')->name('dns.record.edit');
+Route::get('record/{id}/delete', 'Dns\RecordController@delete')->name('dns.record.delete');
+
 Route::get('recordtype', 'Dns\RecordTypeController@index')->name('dns.recordtype');

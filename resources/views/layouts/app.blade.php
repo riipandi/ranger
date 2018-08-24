@@ -93,7 +93,7 @@
     </footer>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script> --}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     @include('sweet::alert')
     @stack('scripts')
 </body>

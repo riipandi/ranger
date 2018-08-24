@@ -8,12 +8,15 @@ class Record extends Model
 {
     protected $table = 'records';
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'domain_id', 'name', 'type', 'content', 'ttl', 'prio',
         'change_date', 'disabled', 'ordername', 'auth'
     ];
 
-    public function records() {
+    public function records()
+    {
         return $this->hasOne(Domain::class);
     }
 }

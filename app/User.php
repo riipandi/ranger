@@ -26,7 +26,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function domains(){
+    public function domain()
+    {
         return $this->hasMany(Task::class);
     }
 

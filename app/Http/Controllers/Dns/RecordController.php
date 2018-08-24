@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Dns;
 
 use App\Record;
+use App\RecordType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Vinkla\Hashids\Facades\Hashids;
 
 class RecordController extends Controller
 {
@@ -13,79 +15,13 @@ class RecordController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Record::all()->toArray());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Record  $record
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Record $record)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Record  $record
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Record $record)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Record  $record
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Record $record)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Record  $record
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Record $record)
-    {
-        //
+        $id = (int) implode('', Hashids::decode($request->id));
+        $data = Record::where('domain_id', $id)
+            ->where('type', '!=', 'SOA')
+            ->paginate(20);
+        $type = RecordType::get();
+        return view('dns.records', ['data' => $data, 'type' => $type]);
     }
 }
