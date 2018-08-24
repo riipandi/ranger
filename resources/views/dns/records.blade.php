@@ -27,7 +27,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="name" placeholder="Name" required>
+                                    <input type="text" class="form-control" name="name" placeholder="Full hostname or @" required>
                                 </div>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" name="content" placeholder="Value" required>

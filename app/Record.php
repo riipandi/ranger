@@ -11,7 +11,7 @@ class Record extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'domain_id', 'name', 'type', 'content', 'ttl', 'prio',
+        'id', 'domain_id', 'name', 'type', 'content', 'ttl', 'prio',
         'change_date', 'disabled', 'ordername', 'auth'
     ];
 

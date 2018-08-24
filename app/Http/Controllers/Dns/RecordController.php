@@ -24,7 +24,7 @@ class RecordController extends Controller
             ->where('type', '!=', 'SOA')
             ->where('type', '!=', 'NS')
             ->paginate(20);
-        $type = RecordType::get();
+        $type = RecordType::get()->where('disabled', false);
         return view('dns.records', ['data' => $data, 'type' => $type, 'domain' => $domain]);
     }
 
@@ -35,10 +35,12 @@ class RecordController extends Controller
             $domain = Domain::find($request->domain_id)->first();
             if ($request->name == '@') {
                 $name = $domain->name;
-            } else {
-                $name = $domain->name;
             }
+            $name = $domain->name;
+
+            $last_id = \DB::table('records')->latest('id')->first();
             Record::create([
+                    'id' => (int) $last_id->id + 1,
                     'domain_id' => $request->domain_id,
                     'name' => $name,
                     'type' => $request->recordType,

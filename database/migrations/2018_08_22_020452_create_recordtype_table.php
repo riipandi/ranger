@@ -17,6 +17,7 @@ class CreateRecordtypeTable extends Migration
             $table->smallIncrements('id');
             $table->string('name', 10)->unique()->index();
             $table->text('description')->nullable();
+            $table->boolean('disabled')->default(true);
             $table->timestamps();
         });
     }

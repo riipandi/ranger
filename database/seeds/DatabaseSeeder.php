@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RecordTypeSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(RecordTypeEnableSeeder::class);
     }
 }
