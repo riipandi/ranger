@@ -7,9 +7,10 @@
         <div class="col-md-12">
             @include('layouts.alert')
             <div class="jumbotron">
-                <div class="card-body text-center">
+                <div class="card-body text-center mb-0 pb-0">
                     <h2>Welcome, your IP Address is:</h2>
                     <h1 class="mt-4">{{ Request::ip() }}</h1>
+                    <a href="{{ route('toolbox.ip') }}" class="btn btn-link mt-4 mb-0">More details &rarr;</a>
                 </div>
             </div>
         </div>
@@ -28,7 +29,7 @@
             <div class="card">
                 <div class="card-body text-center">
                     <h3 class="mb-4">Whois Lookup</h3>
-                    <a href="javascript:;" class="btn btn-primary">Lookup</a>
+                    <a href="{{ route('whois.index') }}" class="btn btn-primary">Lookup</a>
                 </div>
             </div>
         </div>
