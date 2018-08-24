@@ -29,15 +29,15 @@
             <div class="card">
                 <div class="card-body text-center">
                     <h3 class="mb-4">Whois Lookup</h3>
-                    <a href="{{ route('whois.index') }}" class="btn btn-primary">Lookup</a>
+                    <a href="{{ route('whois.index') }}" class="btn btn-primary">Lookup Domain</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-2">
             <div class="card">
                 <div class="card-body text-center">
-                    <h3 class="mb-4">DNS Leak Test</h3>
-                    <a href="javascript:;" class="btn btn-primary">DNS Test</a>
+                    <h3 class="mb-4">Domain Check</h3>
+                    <a href="javascript:;" class="btn btn-primary">Check Domain Availibility</a>
                 </div>
             </div>
         </div>
