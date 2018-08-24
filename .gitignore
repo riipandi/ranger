@@ -18,3 +18,32 @@ Homestead.json
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
+
+# Other files
+/public/sw.js
+/public/service-worker
+/public/service-worker.js
+/public/favicon.ico
+/public/favicon.png
+/public/storage
+/public/assets
+/public/images
+/public/fonts
+/public/css
+/public/js
+
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+composer.lock
+yarn.lock
+.settings
+.env
+
+/tests-jest.xml
+/tests-phpunit.xml
+
+resources/assets/vue/vue-i18n-locales.generated.js

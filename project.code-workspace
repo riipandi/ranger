@@ -1,0 +1,68 @@
+{
+    "folders": [{
+        "path": "."
+    }],
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/.tmb": true,
+            "**/.DS_Store": true,
+            "**/.gitignore": true,
+            "**/.quarantine": true,
+            "**/node_modules": true,
+            "**/vendor": true,
+            "**/.circleci": true,
+            "**/.babelrc": true,
+            "**/.editorconfig": true,
+            "**/.gitattributes": true,
+            "**/.gitlab-ci.yml": true,
+            "**/.travis.yml": true,
+            "**/.vsts-ci.yml": true,
+            "**/artisan": true,
+            "**/composer.lock": true,
+            "**/LICENSE": true,
+            "**/tslint.json": true,
+            "**/tsconfig.json": true,
+            "**/package-lock.json": true,
+            "**/mix-manifest.json": true,
+            "**/phpunit-log-*.php": true,
+            "**/phpunit.xml": true,
+            "**/server.php": true,
+            "**/tests-jest.xml": true,
+            "**/yarn.lock": true,
+            "**/yarn-error.log": true,
+            "**/docker/": true,
+            "**/public/css": true,
+            "**/public/js": true,
+            "**/public/fonts": true
+        },
+        "php-cs-fixer.onsave": true,
+        "php-cs-fixer.rules": "@PSR2",
+        "php-cs-fixer.config": ".php_cs;.php_cs.dist",
+        "php-cs-fixer.allowRisky": false,
+        "php-cs-fixer.pathMode": "override",
+        "php-cs-fixer.autoFixByBracket": true,
+        "php-cs-fixer.autoFixBySemicolon": false,
+        "php-cs-fixer.formatHtml": false,
+        "php-cs-fixer.documentFormattingProvider": true,
+        "emmet.triggerExpansionOnTab": true,
+        "eslint.enable": true,
+        "files.trimTrailingWhitespace": true,
+        "prettier.singleQuote": true,
+        "prettier.trailingComma": "es5",
+        "prettier.eslintIntegration": true,
+        "prettier.disableLanguages": [],
+        "eslint.autoFixOnSave": true,
+        "editor.tabSize": 2,
+        "eslint.validate": [
+            {
+                "autoFix": true,
+                "language": "javascript"
+            },
+            {
+                "autoFix": true,
+                "language": "vue"
+            }
+        ]
+    }
+}
