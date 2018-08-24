@@ -1,6 +1,6 @@
-# Domato
+# Ranger
 
-Domato is acronym for Domain Management Tool. A simple DNS manager tool for PowerDNS.
+Ranger is a simple DNS manager tool for PowerDNS.
 
 ## Contributing
 
@@ -23,13 +23,12 @@ npm install -g git-upload
 Clone repo:
 
 ```bash
-git clone https://github.com/riipandi/domato.git domato
+git clone https://github.com/riipandi/ranger.git ranger
 yarn install && yarn dev && composer install
-php artisan migrate:fresh
-php artisan migrate --seed
+php artisan migrate:fresh --seed
 ```
 
-Do waht you want to do with this code.
+Do what you want to do with this code.
 
 ### 4 - Send pull request
 
