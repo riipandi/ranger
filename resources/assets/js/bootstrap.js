@@ -1,3 +1,5 @@
+import swal from 'sweetalert';
+
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
 
@@ -11,8 +13,6 @@ try {
     window.$ = window.jQuery = require('jquery');
     require('bootstrap');
 } catch (e) {}
-
-import swal from 'sweetalert';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
