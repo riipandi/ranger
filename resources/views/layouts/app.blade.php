@@ -63,8 +63,8 @@
                     <ul class="navbar-nav ml-auto">
                         {{-- Authentication Links --}}
                         @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ trans('titles.login') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">{{ trans('titles.register') }}</a></li>
+                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                            {{-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li> --}}
                         @else
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->realname }}</a>

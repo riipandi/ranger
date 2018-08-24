@@ -1,16 +1,18 @@
 @extends('layouts.app')
-@section('title', 'Welcome')
+@section('title', 'What Is My IP Address')
 @section('content')
 
     <div class="container">
         <div class="row justify-content-center">
-            {{-- @include('layouts.sidemenu') --}}
+            @include('layouts.sidefront')
             <div class="col-md-9">
                 @include('layouts.alert')
                 <div class="card">
-                    <div class="card-header">Welcome</div>
+                    <div class="card-header">What is my IP address?</div>
                     <div class="card-body">
-                        Selamat datang
+                        @if (isset($output))
+                            {{ $output }}
+                        @endif
                     </div>
                 </div>
             </div>
