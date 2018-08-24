@@ -60,7 +60,7 @@ class FreshInstall extends Command
         $this->callSilent('migrate:fresh');
 
         $this->line('- Seeding required records');
-        $this->callSilent('db:seed', ['--class' => 'UsersGroupsSeeder']);
+        $this->callSilent('db:seed', ['--class' => 'RecordTypeSeeder']);
 
         $this->line('- Creating super admin user');
         $this->callSilent('app:makeadmin');
