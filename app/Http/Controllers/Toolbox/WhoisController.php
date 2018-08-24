@@ -14,11 +14,6 @@ use App\WhoisData;
 
 class WhoisController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         return view('toolbox.whois');
@@ -30,7 +25,7 @@ class WhoisController extends Controller
         try {
             if ($WhoisData = WhoisData::where('domain', $domain)->first()) {
                 $updated = $WhoisData->updated_at;
-                if ($updated->diffInSeconds() >= 3600) {
+                if ($updated->diffInSeconds() >= 7200) {
                     $info = Whois::create()->lookupDomain($domain);
                     $WhoisData->domain = $domain;
                     $WhoisData->result = $info->getText();
@@ -39,10 +34,7 @@ class WhoisController extends Controller
                 }
                 return view('toolbox.whois')->with('infoFromCache', $WhoisData);
             } elseif ($info = Whois::create()->lookupDomain($domain)) {
-                WhoisData::create([
-                    'domain' => $domain,
-                    'result' => $info->getText()
-                ]);
+                WhoisData::create(['domain' => $domain, 'result' => $info->getText()]);
                 return view('toolbox.whois')->with('info', $info);
             } else {
                 return redirect()->back()->with(['error' => 'Null if domain available!']);
