@@ -2,6 +2,17 @@
 
 Ranger is a simple DNS manager tool for PowerDNS.
 
+## Prepare Database
+
+```bash
+sudo -u postgres psql -c "DROP DATABASE IF EXISTS rangerdb"
+sudo -u postgres psql -c "DROP ROLE IF EXISTS rangerdb"
+sudo -u postgres psql -c "CREATE ROLE rangerdb WITH LOGIN PASSWORD 'xxxxxxxxxx'"
+sudo -u postgres psql -c "CREATE DATABASE rangerdb OWNER rangerdb"
+sudo -u postgres psql -c "ALTER ROLE rangerdb SUPERUSER"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE rangerdb TO rangerdb"
+```
+
 ## Contributing
 
 ### 1 - Prepare your environment
@@ -24,7 +35,8 @@ Clone repo:
 
 ```bash
 git clone https://github.com/riipandi/ranger.git ranger
-yarn install && yarn dev && composer install
+yarn install && yarn dev && composer install --profile
+php artisan app:init --force
 php artisan migrate:fresh --seed
 ```
 
