@@ -113,7 +113,7 @@ class VendorCleanup extends Command
         foreach ($directories as $directory) {
             foreach ($patterns as $pattern) {
                 $casePattern = preg_replace_callback('/([a-z])/i', [$this, 'prepareWord'], $pattern);
-                $files = glob($directory . '/' . $casePattern, GLOB_BRACE);
+                $files = glob($directory.'/'.$casePattern, GLOB_BRACE);
                 if (!$files) {
                     continue;
                 }
@@ -121,18 +121,18 @@ class VendorCleanup extends Command
                 foreach ($this->excluded as $excluded) {
                     $key = $this->arrayFind($excluded, $files);
                     if ($key !== false) {
-                        $this->out('SKIPPED: ' . $files[$key]);
+                        $this->out('SKIPPED: '.$files[$key]);
                         unset($files[$key]);
                     }
                 }
                 foreach ($files as $file) {
                     if (is_dir($file)) {
-                        $this->out('DELETING DIR: ' . $file);
+                        $this->out('DELETING DIR: '.$file);
                         if (!$isDry) {
                             $this->delTree($file);
                         }
                     } else {
-                        $this->out('DELETING FILE: ' . $file);
+                        $this->out('DELETING FILE: '.$file);
                         if (!$isDry) {
                             @unlink($file);
                         }
@@ -144,9 +144,10 @@ class VendorCleanup extends Command
     }
 
     /**
-     * Recursively traverses the directory tree
+     * Recursively traverses the directory tree.
      *
-     * @param  string $dir
+     * @param string $dir
+     *
      * @return array
      */
     protected function expandTree($dir)
@@ -154,19 +155,21 @@ class VendorCleanup extends Command
         $directories = [];
         $files = array_diff(scandir($dir), ['.', '..']);
         foreach ($files as $file) {
-            $directory = $dir . '/' . $file;
+            $directory = $dir.'/'.$file;
             if (is_dir($directory)) {
                 $directories[] = $directory;
                 $directories = array_merge($directories, $this->expandTree($directory));
             }
         }
+
         return $directories;
     }
 
     /**
-     * Recursively deletes the directory
+     * Recursively deletes the directory.
      *
-     * @param  string $dir
+     * @param string $dir
+     *
      * @return bool
      */
     protected function delTree($dir)
@@ -189,15 +192,17 @@ class VendorCleanup extends Command
     }
 
     /**
-     * Prepare word
+     * Prepare word.
      *
-     * @param  string $matches
+     * @param string $matches
+     *
      * @return string
      */
     protected function prepareWord($matches)
     {
-        return '[' . strtolower($matches[1]) . strtoupper($matches[1]) . ']';
+        return '['.strtolower($matches[1]).strtoupper($matches[1]).']';
     }
+
     protected function arrayFind($needle, array $haystack)
     {
         foreach ($haystack as $key => $value) {
@@ -205,13 +210,14 @@ class VendorCleanup extends Command
                 return $key;
             }
         }
+
         return false;
     }
 
     protected function out($message)
     {
         if ($this->option('o') || $this->option('dry')) {
-            $this->info(PHP_EOL . $message);
+            $this->info(PHP_EOL.$message);
         }
     }
 }

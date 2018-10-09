@@ -1,0 +1,40 @@
+language: php
+
+php:
+  - 7.2
+
+services:
+  - mysql
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+
+dist: trusty
+
+sudo: required
+
+before_script:
+  - cp .env.travis .env
+  - composer install --no-interaction
+  - npm install
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS testing;'
+
+script:
+  - php artisan app:init --force
+  - php artisan app:fresh --force
+  - npm run production
+  - vendor/bin/phpunit --coverage-text
+
+cache:
+  directories:
+    - node_modules
+    - vendor
+
+env:
+  - TRAVIS_NODE_VERSION="4"

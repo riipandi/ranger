@@ -1,47 +1,29 @@
-vendor/
-node_modules/
-npm-debug.log
+**/vendor/
+**/node_modules/
+**/npm-debug.log
+**/package-lock.json
 
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
+# Laravel specific
+**/Homestead.yaml
+**/Homestead.json
+**/bootstrap/compiled.php
+**/app/storage/debugbar/*
+**/app/storage/logs/*.log
+**/public/storage
+**/public/hot
+**/storage/*.key
+**/.env
 
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-storage/*.key
-.env.*.php
-.env.php
-.env
-Homestead.yaml
-Homestead.json
+**/.idea
+**/.vscode
+**/.vagrant
+**/.phpunit.result.cache
 
-# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
-.rocketeer/
+**/.settings
+**/.grenrc.json
+**/composer.lock
+**/yarn.lock
 
-# Other files
-/public/sw.js
-/public/service-worker
-/public/service-worker.js
-/public/storage
-/public/assets
-/public/images
-/public/fonts
-/public/css
-/public/js
-
-/.idea
-/.vagrant
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
-composer.lock
-yarn.lock
-.settings
-.env
-
-/tests-jest.xml
-/tests-phpunit.xml
-
-resources/assets/vue/vue-i18n-locales.generated.js
+# PWA server worker
+**/public/service-worker/
+**/public/sw.js

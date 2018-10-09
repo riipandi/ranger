@@ -3,22 +3,40 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Http\Request;
-
-use App;
 use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
     protected $redirectTo = 'dashboard';
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function logout(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect('login')->with(['warning' => 'You have not logged in before!']);
+        }
+        auth()->logout();
+
+        return redirect('login')->with(['success' => 'See you next time..']);
     }
 
     public function username()
@@ -26,29 +44,35 @@ class LoginController extends Controller
         $identity = request()->get('identity');
         $fieldName = filter_var($identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         request()->merge([$fieldName => $identity]);
+
         return $fieldName;
     }
 
     protected function validateInput(Request $request)
     {
+        // $useCaptcha = (app()->environment(['testing', 'production'])) ? 'required|captcha' : null;
         $this->validate(
             $request,
             [
                 'identity' => 'required|string',
                 'password' => 'required|string',
+                // 'g-recaptcha-response' => $useCaptcha,
             ],
             [
-                'identity.required' => trans('validation.required'),
-                'password.required' => trans('validation.required'),
+                'identity.required' => __('validation.required'),
+                'password.required' => __('validation.required'),
+                // 'g-recaptcha-response.required' => 'Please make sure that you are not robot!',
             ]
         );
     }
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        $message = __('Invalid credentials');
-        $request->session()->flash('warning', $message);
-        throw ValidationException::withMessages(['error' => [$message]]);
+        $request->session()->flash('error', __('Invalid credentials!'));
+        throw ValidationException::withMessages([
+            // 'identity' => ['This user not found!'],
+            // 'password' => ['Check your password!'],
+        ]);
     }
 
     public function login(Request $request)
@@ -57,6 +81,7 @@ class LoginController extends Controller
 
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
+
             return $this->sendLockoutResponse($request);
         }
 
@@ -67,33 +92,17 @@ class LoginController extends Controller
                 return $this->sendLoginResponse($request);
             } else {
                 $this->incrementLoginAttempts($request);
-                alert()->warning(__('User inactive or not verified!'), 'Warning')->autoclose(2400);
+                $request->session()->flash('warning', __('User inactive or not yet verified!'));
                 return redirect()->back()->withInput($request->only($this->username(), 'remember'));
             }
         }
         $this->incrementLoginAttempts($request);
-        return $this->sendFailedLoginResponse($request);
-    }
 
-    public function logout(Request $request)
-    {
-        // $this->logActivity('Logout');
-        auth()->logout();
-        alert()->success('See you next time!', 'Log Out')->autoclose(2400);
-        return redirect('login');
+        return $this->sendFailedLoginResponse($request);
     }
 
     protected function authenticated(Request $request, $user)
     {
-        alert()->success('Welcome ' . auth()->user()->realname, 'Good job!')->autoclose(2400);
-        redirect('dashboard');
-    }
-
-    protected function logActivity(Request $request, $message)
-    {
-        // activity()
-        //     ->causedBy($user->id)
-        //     ->withProperties(['ip_address' => $request->getClientIp()])
-        //     ->log($message);
+        return redirect('dashboard')->with(['success' => 'Welcome home '.auth()->user()->name]);
     }
 }

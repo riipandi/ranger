@@ -1,74 +1,29 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
 @section('title', 'Welcome')
+
 @section('content')
-
-<div class="container">
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-12">
-            @include('layouts.alert')
-            <div class="jumbotron">
-                <div class="card-body text-center mb-0 pb-0">
-                    <h2>Welcome, your IP Address is:</h2>
-                    <h1 class="mt-4">{{ Request::ip() }}</h1>
-                    <a href="{{ route('toolbox.ip') }}" class="btn btn-link mt-4 mb-0">More details &rarr;</a>
-                </div>
+    <div class="min-h-full h-full w-full flex flex-col items-center justify-center">
+        @if (Route::has('login'))
+            <div class="absolute pin-t pin-r m-8">
+                <ul class="list-reset flex items-center -mr-6">
+                    @auth
+                        <li class="mr-6"><a class="font-semibold text-blue-dark no-underline hover:underline" href="{{ route('dashboard') }}">Dashboard</a></li>
+                    @else
+                        <li class="mr-6"><a class="font-semibold text-blue-dark no-underline hover:underline" href="{{ route('login') }}">Sign in</a></li>
+                        <li class="mr-6"><a class="font-semibold text-blue-dark no-underline hover:underline" href="{{ route('register') }}">Sign up</a></li>
+                    @endauth
+                </ul>
             </div>
-        </div>
+        @endif
+
+        <h1 class="font-light text-5xl mb-6">{{ config('app.name') }}</h1>
+
+        <ul class="list-reset flex flex-col sm:flex-row items-center -mb-4 sm:-mr-6">
+            <li class="mb-4 sm:mr-6"><a class="text-blue-dark no-underline hover:underline" href="//laravel.com/docs">Documentation</a></li>
+            <li class="mb-4 sm:mr-6"><a class="text-blue-dark no-underline hover:underline" href="//laracasts.com">Laracasts</a></li>
+            <li class="mb-4 sm:mr-6"><a class="text-blue-dark no-underline hover:underline" href="//laravel-news.com">News</a></li>
+            <li class="mb-4 sm:mr-6"><a class="text-blue-dark no-underline hover:underline" href="//github.com/riipandi/laravel-start">Laravel Start</a></li>
+        </ul>
     </div>
-
-    <div class="row justify-content-center mt-2">
-        <div class="col-md-4 mb-2">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="mb-4">DNS Leak Test</h3>
-                    <a href="javascript:;" class="btn btn-primary">Leak My DNS</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-2">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="mb-4">Whois Lookup</h3>
-                    <a href="{{ route('whois.index') }}" class="btn btn-primary">Lookup Domain</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-2">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="mb-4">Domain Check</h3>
-                    <a href="javascript:;" class="btn btn-primary">Check Domain Availibility</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-4 mb-2">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="mb-4">DNS Record Check</h3>
-                    <a href="javascript:;" class="btn btn-primary">Check Record</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-2">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="mb-4">String Manipulator</h3>
-                    <a href="javascript:;" class="btn btn-primary">Read More</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-2">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="mb-4">RSA Generator</h3>
-                    <a href="javascript:;" class="btn btn-primary">Generate RSA Key</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection

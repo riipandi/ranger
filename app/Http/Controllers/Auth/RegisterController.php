@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
+use App\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = 'dashboard';
 
     /**
      * Create a new controller instance.
@@ -43,30 +43,50 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
+        // $useCaptcha = (app()->environment(['testing', 'production'])) ? 'required|captcha' : '';
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'name'     => 'required|string|max:191',
+            'username' => 'required|string|min:4|max:24|alpha_num|unique:users,username',
+            'email'    => 'required|string|email|max:191|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
+            // 'g-recaptcha-response' => $useCaptcha,
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \App\User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        try {
+            $user = User::create([
+                'username'          => $data['username'],
+                'name'              => $data['name'],
+                'email'             => $data['email'],
+                'password'          => Hash::make($data['password']),
+                'remember_token'    => str_random(60),
+                'email_verified_at' => null,
+                'disabled'          => true,
+            ]);
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+
+            return redirect()->back()->with('warning', __('Unable to create new user!'));
+        }
+
+        return $user;
     }
+
+    // dispatch(new SendVerificationEmail($user));
+    // dispatch(new SendWelcomeEmail($user));
 }

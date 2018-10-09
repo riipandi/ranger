@@ -1,9 +1,27 @@
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+<IfModule mod_negotiation.c>
+    AddCharset utf-8 .html .css .js .xml .json .rss
+    Options -MultiViews -Indexes
+</IfModule>
 
+<FilesMatch "\.(html|css|js)$">
+    AddDefaultCharset utf-8
+    DefaultLanguage en-US
+</FilesMatch>
+
+<FilesMatch ^\.>
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
+
+    # Redirect to https
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Disallow direct access to all project folders except public
+    RewriteRule ^(app|bootstrap|config|database|docker|resources|routes|tests|vendor) index.php [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -14,8 +32,24 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Handle Front Controller...
+    RewriteCond %{REQUEST_URI} !(robots\.txt|\.(css|js|png|jpg|svg|woff2|woff|ttf|gif|ico))$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule (.*)/(.*)$ public/$1/$2 [L,NC]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule (.*)$ public/$1 [L,NC]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !=/favicon.ico
     RewriteRule ^ index.php [L]
 </IfModule>

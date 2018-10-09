@@ -19,12 +19,12 @@ class DomainController extends Controller
     public function index()
     {
         if (auth()->user()->is_admin == true) {
-            $data = Domain::paginate(20);
+            $data = Domain::paginate(20)->linksOnEachSide(5);
         } else {
             $data = Domain::where('user_id', auth()->user()->id)->paginate(20);
         }
         $user = User::get();
-        return view('dns.domain', ['data' => $data, 'user' => $user]);
+        return view('dns.zones', ['data' => $data, 'user' => $user]);
     }
 
     public function add(Request $request)
@@ -32,38 +32,34 @@ class DomainController extends Controller
         $domain = Domain::where('name', $request->domain)->first();
         if ($domain === null) {
             Domain::create([
-                'user_id' => $request->owner,
+                'user_id' => auth()->user()->id,
                 'name'    => strtolower($request->domain),
-                'type'    => strtoupper($request->type),
+                'type'    => 'NATIVE',
             ]);
 
             $domain = Domain::where('name', $request->domain)->first();
-            $admin_email = str_replace('@', '.', $request->admin_email);
+            $admin_email = str_replace('@', '.', auth()->user()->email);
+            $soa_record  = option('default_ns1') . ' ' . $admin_email . ' 1 10380 3600 604800 3600';
+
             Record::create([
                 'domain_id' => $domain->id,
                 'name' => $request->domain,
                 'type' => 'SOA',
-                'content' => strtolower($request->ns1) . ' ' . $admin_email . ' 1 10380 3600 604800 3600',
+                'content' => $soa_record,
             ]);
-
-            alert()->success(__('Domain addedd!'), 'Success')->autoclose(1800);
-            return redirect()->back();
+            return redirect()->back()->with(['success' => __('Domain addedd!')]);
         } else {
-            alert()->warning(__('Domain already exists!'), 'Warning')->autoclose(1800);
-            return redirect()->back();
+            return redirect()->back()->with(['warning' => __('Domain already exists!')]);
         }
     }
 
     public function delete(Request $request)
     {
-        $id = (int) implode('', Hashids::decode($request->id));
-        $data = Domain::find($id);
+        $data = Domain::find($request->id);
         if ($data->delete()) {
-            alert()->success(__('Record deleted!'), 'Success')->autoclose(1800);
-            return redirect()->back();
+            return redirect()->back()->with(['warning' => __('Domain has been deleted!')]);
         } else {
-            alert()->warning(__('Record not exists!'), 'Warning')->autoclose(1800);
-            return redirect()->back();
+            return redirect()->back()->with(['warning' => __('Failed to delete domain!')]);
         }
     }
 

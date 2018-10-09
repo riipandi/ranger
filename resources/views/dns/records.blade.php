@@ -1,105 +1,99 @@
-@extends('layouts.app')
-@section('title', 'DNS Records')
-@section('content')
+@extends('layouts.base')
 
-<div class="container">
-    <div class="row justify-content-center">
-        @include('layouts.sidemenu')
-        <div class="col-md-9">
-            @include('layouts.alert')
-            <div class="card">
-                <div class="card-header">
-                    DNS Records for {{ $domain->name }}
-                    {{-- <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#frmAddModal">Add Record</button> --}}
-                </div>
-                <div class="card-body p-0">
-                    <div class="my-2 px-2">
-                        <form method="POST" action="{{ route('dns.record.add') }}">
-                            @csrf
-                            <input type="hidden" name="domain_id" value="{{ $domain->id }}">
-                            <div class="form-row">
-                                <div class="col-sm-2">
-                                    <select name="recordType" id="recordType" class="form-control text-muted" required>
-                                        <option value="">Type</option>
-                                        @foreach($type as $t)
-                                            <option value="{{$t->name}}">{{$t->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="name" placeholder="Enter @ or full hostname" required>
-                                </div>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="content" placeholder="Value" required>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control text-center" name="ttl" value="3600" placeholder="TTL" required>
-                                </div>
-                                <div class="col-sm-1">
-                                    <input type="text" class="form-control text-center" name="prio" value="" id="priority" placeholder="Prio" required disabled>
-                                </div>
-                                <div class="col-sm-1">
-                                    <button type="submit" class="form-control btn btn-primary btn-submit"><i class="fe fe-check"></i></button>
-                                </div>
-                            </div>
-                        </form>
+@section('title', 'DNS Records')
+
+@section('content')
+    <div class="w-full flex-grow container mx-auto sm:px-4 pt-6 pb-8">
+        @include('partials.alert')
+
+        <div class="bg-white border-t border-b sm:border-l sm:border-r sm:rounded shadow mb-6">
+            <div class="flex-grow flex flex-col bg-white border-t border-b sm:rounded sm:border shadow overflow-hidden">
+                <div class="border-b">
+                    <div class="flex justify-between px-6 -mb-px">
+                        <h3 class="flex text-blue-dark py-4 items-center font-normal text-lg">Add Record</h3>
+                        <div class="flex py-4">
+                            <a class="no-underline hover:underline cursor-pointer text-grey hover:text-grey-dark text-md">Record Type</a>
+                        </div>
                     </div>
-                    <table class="table table-sm m-0 table-condensed">
-                        <thead class="">
-                            <th class="text-center">Type</th>
-                            <th>Name</th>
-                            <th>Content</th>
-                            <th>TTL</th>
-                            <th>Prio</th>
-                            <th class="text-center">Action</th>
-                        </thead>
-                        <tbody class="table-hover">
-                            @foreach ($data as $row)
-                                @if ($row->count() > 0)
-                                <tr>
-                                    <td class="text-center text-muted">{{ $row->type }}</td>
-                                    <td class="text-muted">{{ $row->name }}</td>
-                                    <td class="text-muted">
-                                        <input type="text" value="{{ $row->content }}" class="border-0 text-muted" readonly>
-                                    </td>
-                                    <td class="text-muted">{{ $row->ttl }}</td>
-                                    <td class="text-muted">{{ $row->prio }}</td>
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group" aria-label="Action">
-                                            <a href="javascript:;" data-href="{{ route('dns.record.edit', Hashids::encode($row->id)) }}" class="not-available btn btn-sm btn-success"><i class="fe fe-edit mx-1"></i></a>
-                                            <button data-url="{{ route('dns.record.delete', Hashids::encode($row->id)) }}" class="btn btn-sm btn-danger confirm-get"><i class="fe fe-trash mx-1"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @else
-                                    {{ __('No data') }}
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ route('dns.zones') }}" class="btn btn-primary btn-md">&larr; Back to domain list</a>
-                    <nav aria-label="navigation" class="float-right">{{ $data->links() }}</nav>
+                <div class="flex-grow flex px-6 py-3 text-grey-darker items-center border-b -mx-4">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border-t border-b sm:border-l sm:border-r sm:rounded shadow mb-6">
+            <div class="flex-grow flex flex-col bg-white border-t border-b sm:rounded sm:border shadow overflow-hidden">
+                <div class="border-b">
+                    <div class="flex justify-between px-6 -mb-px">
+                        <h3 class="flex text-blue-dark py-4 items-center font-normal text-lg">DNS Records</h3>
+                        <div class="flex py-4">
+                            <form action="{{ route('dns.zones.add') }}" method="POST" autocomplete="off">
+                                @csrf
+                                <div class="flex flex-wrap items-stretch w-full relative">
+                                    <input name="domain" placeholder="Enter a domain name" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 relative outline-none text-center text-sm font-light border rounded rounded-r-none focus:border-blue bg-grey-lightest text-grey-darker py-1 pr-9 pl-8">
+                                    <div class="flex -mr-px">
+                                        <button class="flex items-center leading-normal bg-blue hover:bg-blue-dark text-white py-1 px-3 text-center text-sm font-light border border-blue-dark rounded rounded-l-none focus:outline-none">Add Domain</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex px-6 py-2 text-grey-darker items-center border-b -mx-4 justify-between">
+                    <div class="w-1/4 px-1 flex items-center">
+                        <span class="flex-1 relative outline-none text-left text-sm font-semibold text-grey-darker py-2 px-4">Name</span>
+                    </div>
+                    <div class="w-auto px-1 flex items-center">
+                        <span class="flex-1 relative outline-none text-center text-sm font-semibold text-grey-darker py-2 px-4">Type</span>
+                    </div>
+                    <div class="w-auto px-1 flex items-center">
+                        <span class="flex-1 relative outline-none text-center text-sm font-semibold text-grey-darker py-2 px-4">TTL</span>
+                    </div>
+                    <div class="w-auto px-1 flex items-center">
+                        <span class="flex-1 relative outline-none text-center text-sm font-semibold text-grey-darker py-2 px-4">Priority</span>
+                    </div>
+                    <div class="w-auto text-right">
+                        <span class="flex-1 relative outline-none text-center text-sm font-semibold text-grey-darker py-2 px-4">Action</span>
+                    </div>
+                </div>
+                @foreach ($data as $row)
+                <div class="flex-grow flex px-6 py-2 text-grey-darker items-center border-b -mx-4 justify-between">
+                    <div class="w-1/4 px-1 flex items-center">
+                        <input name="domain" value="{{ $row->name }}" type="text" class="flex-1 relative outline-none text-left text-sm font-light text-grey-darker focus:bg-grey-lightest py-2 px-4">
+                    </div>
+                    <div class="w-auto px-1 flex items-center">
+                        <input name="domain" value="{{ $row->type }}" type="text" class="flex-1 relative outline-none text-center text-sm font-light text-grey-darker focus:bg-grey-lightest py-2 px-4">
+                    </div>
+                    <div class="w-auto px-1 flex items-center">
+                        <input name="domain" value="{{ $row->ttl }}" type="text" class="flex-1 relative outline-none text-center text-sm font-light text-grey-darker focus:bg-grey-lightest py-2 px-4">
+                    </div>
+                    <div class="w-auto px-1 flex items-center">
+                        <input name="domain" value="{{ $row->prio }}" type="text" class="flex-1 relative outline-none text-center text-sm font-light text-grey-darker focus:bg-grey-lightest py-2 px-4">
+                    </div>
+                    <div class="w-auto text-right">
+                        <a href="{{ route('dns.records', $row->name) }}" class="flex-inline no-underline items-center justify-center cursor-pointer border-0 bg-grey-darkest hover:bg-green-dark text-white text-sm font-light rounded rounded-r-none py-2 px-2">
+                            <svg class="fill-current pt-1 w-4 h-4"><use xlink:href="{{ asset('svg/sprite.feathericon.svg#edit') }}"></use></svg>
+                        </a>
+                        <a href="{{ route('dns.zones.delete', $row->id) }}" class="flex-inline no-underline items-center justify-center cursor-pointer border-0 bg-grey-darkest hover:bg-red-dark text-white text-sm font-light rounded rounded-l-none py-2 px-2">
+                            <svg class="fill-current pt-1 w-4 h-4"><use xlink:href="{{ asset('svg/sprite.feathericon.svg#trash') }}"></use></svg>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+                <div class="px-6 py-4">
+                    <div class="inline-flex float-right">
+                        {{ $data->links() }}
+                        {{-- <ul class="flex list-reset border border-grey-light rounded w-auto">
+                            <li><a class="block no-underline hover:text-white hover:bg-blue text-blue border-r border-grey-light px-4 py-1 rounded-l" href="#">Previous</a></li>
+                            <li><a class="block no-underline hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-1" href="#">1</a></li>
+                            <li><a class="block no-underline hover:text-white hover:bg-blue text-blue border-r border-grey-light px-3 py-1" href="#">2</a></li>
+                            <li><a class="block no-underline text-white bg-blue border-r border-blue px-3 py-1" href="#">3</a></li>
+                            <li><a class="block no-underline hover:text-white hover:bg-blue text-blue px-4 py-1 rounded-r" href="#">Next</a></li>
+                        </ul> --}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 @endsection
-
-@push('scripts')
-    <script>
-    $(document).ready(function() {
-        $('#priority').attr('disabled','disabled');
-        $('#recordType').on('change',function(){
-        var val = $(this).val();
-        if(val == "MX"){
-            $('#priority').removeAttr('disabled');
-        } else{
-            $('#priority').attr('disabled','disabled');
-        }});
-    });
-    </script>
-@endpush

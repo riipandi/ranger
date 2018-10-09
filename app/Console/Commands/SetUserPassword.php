@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
-use App\User;
 
 class SetUserPassword extends Command
 {
@@ -13,7 +13,7 @@ class SetUserPassword extends Command
      *
      * @var string
      */
-    protected $signature = 'app:setpassword {--email=} {--password=}';
+    protected $signature = 'user:setpassword {--email=} {--password=}';
 
     /**
      * The console command description.
@@ -40,19 +40,19 @@ class SetUserPassword extends Command
     public function handle()
     {
         $email = $this->option('email');
-        $pass  = $this->option('password');
+        $pass = $this->option('password');
 
         if ($email && $pass) {
             $user = User::where('email', $email)->first();
             if ($user) {
                 $user->password = Hash::make($pass);
                 $user->save();
-                $this->info(PHP_EOL . "Password changed!");
+                $this->info(PHP_EOL.'Password changed!');
             } else {
-                $this->error(PHP_EOL . "User with email $email not found!");
+                $this->error(PHP_EOL."User with email $email not found!");
             }
         } else {
-            $this->error(PHP_EOL . "Please identify user by email and specify new password!");
+            $this->error(PHP_EOL.'Please identify user by email and specify new password!');
         }
     }
 }

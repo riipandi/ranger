@@ -2,37 +2,59 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Appstract\Meta\Metable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, Metable;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'username',
-        'realname',
+        'name',
         'email',
         'password',
-        'group_id',
-        'activation_code',
-        'confirmed',
+        'username',
         'disabled',
-        'verified',
+        'email_verified_at',
         'remember_token',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    public function domain()
+    /**
+     * Mark the given user's email as verified.
+     *
+     * @return bool
+     */
+    public function markEmailAsVerified()
     {
-        return $this->hasMany(Task::class);
+        return $this->forceFill([
+            'email_verified_at' => $this->freshTimestamp(),
+            'disabled' => false,
+        ])->save();
     }
 
-    // public function verifyUser()
-    // {
-    //     return $this->hasOne('App\UserVerifyAccount');
-    // }
+    /**
+     * User social acounts.
+     *
+     * @return array
+     */
+    public function socialAccounts()
+    {
+        return $this->hasMany('App\UserSocialAccount');
+    }
 }
